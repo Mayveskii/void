@@ -1,21 +1,41 @@
-# Void MCP Tool Calling Fixes
+# Welcome to Void.
 
-3 bugs preventing MCP tool calling in Void Editor with OpenAI-compatible providers.
+<div align="center">
+	<img
+		src="./src/vs/workbench/browser/parts/editor/media/slice_of_void.png"
+	 	alt="Void Welcome"
+		width="300"
+	 	height="300"
+	/>
+</div>
 
-## Bug 1: Random tool name prefixes break LLM comprehension
+Void is the open-source Cursor alternative.
 
-**File:** `out/main.js` — `_addUniquePrefix()`  
-**Problem:** `Math.random().toString(36).slice(2,8)` produces meaningless 6-char prefixes (e.g. `votxub_mesh_query`). LLMs cannot associate these with real actions and fall back to bash commands.  
-**Fix:** Use MCP server name as deterministic prefix: `binary-mesh_mesh_query`. The existing `y9()` strip function (`t.split("_").slice(1).join("_")`) already handles this correctly.
+Use AI agents on your codebase, checkpoint and visualize changes, and bring any model or host locally. Void sends messages directly to providers without retaining your data.
 
-## Bug 2: Unrecognized models get no tool format
+This repo contains the full sourcecode for Void. If you're new, welcome!
 
-**File:** `out/main.js` — `o5` default model options  
-**Problem:** `o5` (defaults for unrecognized models) lacks `specialToolFormat`. OpenAI-compatible providers with custom model names get `specialToolFormat=undefined`, so tools are never sent via function-calling API.  
-**Fix:** Add `specialToolFormat:"openai-style"` to `o5`. Known models (Claude, GPT, Gemini) have their own format in `modelOptions` and are unaffected.
+- 🧭 [Website](https://voideditor.com)
 
-## Bug 3: XML tool definitions disabled by systemMessage
+- 👋 [Discord](https://discord.gg/RSNjgaugJs)
 
-**File:** `out/vs/workbench/workbench.desktop.main.js`  
-**Problem:** `includeXMLToolDefinitions = !systemMessage`. When any system message is set, MCP tool XML descriptions are excluded from the prompt. LLM never sees available MCP tools.  
-**Fix:** `includeXMLToolDefinitions = !systemMessage || mcpTools.length > 0`. Include XML tool definitions when MCP tools exist, regardless of systemMessage.
+- 🚙 [Project Board](https://github.com/orgs/voideditor/projects/2)
+
+
+## Note
+
+We've paused work on the Void IDE (this repo) to explore a few novel coding ideas. We want to focus on innovation over feature-parity. Void will continue running, but without maintenance some existing features might stop working over time. Depending on the direction of our new work, we might not resume Void as an IDE.
+
+We won't be actively reviewing Issues and PRs, but we will respond to all [email](mailto:hello@voideditor.com) inquiries on building and maintaining your own version of Void while we're paused. 
+
+## Reference
+
+Void is a fork of the [vscode](https://github.com/microsoft/vscode) repository. For a guide to the codebase, see [VOID_CODEBASE_GUIDE](https://github.com/voideditor/void/blob/main/VOID_CODEBASE_GUIDE.md).
+
+For a guide on how to develop your own version of Void, see [HOW_TO_CONTRIBUTE](https://github.com/voideditor/void/blob/main/HOW_TO_CONTRIBUTE.md) and [void-builder](https://github.com/voideditor/void-builder).
+
+
+
+
+## Support
+You can always reach us in our Discord server or contact us via email: hello@voideditor.com.
